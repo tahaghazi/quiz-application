@@ -209,6 +209,7 @@ public class QuizApplication extends JFrame {
         // Create start page
         JPanel startPanel = new JPanel(new BorderLayout());
         JLabel startLabel = new JLabel("Welcome to the Quiz App!");
+        startLabel.setFont(new Font("Arial", Font.BOLD, 24));
         startLabel.setHorizontalAlignment(JLabel.CENTER);
         startPanel.add(startLabel, BorderLayout.CENTER);
 
@@ -324,9 +325,11 @@ public class QuizApplication extends JFrame {
 
         scoreLabel.setFont(new Font("Arial", Font.BOLD, 16)); // Increase font size of the label
         scoreNumberLabel.setFont(new Font("Arial", Font.BOLD, 16)); // Increase font size of the score number
-        JPanel panel = new JPanel(new GridLayout(2, 1)); // Adjust layout for bigger window
-        panel.add(scoreLabel);
-        panel.add(scoreNumberLabel);
+        JPanel panel = new JPanel(new BorderLayout()); // Adjust layout for bigger window
+        panel.add(scoreLabel,BorderLayout.WEST);
+        panel.add(scoreNumberLabel,BorderLayout.EAST);
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
 
         // Create a custom OK button and disable focus
         JButton okButton = new CustomButton("OK");
@@ -341,21 +344,22 @@ public class QuizApplication extends JFrame {
         });
 
         // Create a panel to hold the OK button
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(okButton);
 
         // Add button panel to main panel
-        panel.add(buttonPanel);
+        panel.add(buttonPanel,BorderLayout.SOUTH);
 
         // Create the dialog without default OK button
         JDialog dialog = new JDialog();
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setLayout(new BorderLayout());
         dialog.setTitle("Quiz Finished!");
-        dialog.add(panel, BorderLayout.NORTH);
+        dialog.add(panel, BorderLayout.CENTER);
         dialog.pack();
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
+        dialog.setSize(270,170);
 
     }
 

@@ -1,26 +1,21 @@
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 
 public class QuizApplication extends JFrame {
-    private int questionsNumber = 3;
+    private int  questionsNumber = 3;
     private int[] selectedAnswers = new int[questionsNumber];
     private JLabel questionLabel;
     private JRadioButton[] options;
-    private JButton nextButton;
     private ButtonGroup optionsGroup;
-    private   JPanel buttonPanel;
+    private JPanel buttonPanel;
     private JPanel mainPanel; // Main panel to switch between start page and questions
-
 
 
     // theme
@@ -88,9 +83,9 @@ public class QuizApplication extends JFrame {
             setBackground(darkColor); // darkColor assumed to be defined elsewhere
 
             // Set padding (margin) for the button
-            int topPadding,bottomPadding,rightPadding,leftPadding;
-            bottomPadding = topPadding= 10;
-            rightPadding =leftPadding = 20;
+            int topPadding, bottomPadding, rightPadding, leftPadding;
+            bottomPadding = topPadding = 10;
+            rightPadding = leftPadding = 20;
             super.setMargin(new Insets(topPadding, leftPadding, bottomPadding, rightPadding));
 
             // Set additional properties
@@ -171,7 +166,7 @@ public class QuizApplication extends JFrame {
         buttonPanel = new JPanel(new FlowLayout());
 
 
-        JButton backButton = new CustomButton("Back");
+        CustomButton backButton = new CustomButton("Back");
 
         buttonPanel.add(backButton);
         backButton.addActionListener(new ActionListener() {
@@ -184,7 +179,7 @@ public class QuizApplication extends JFrame {
 
             }
         });
-        nextButton = new CustomButton("Next");
+        CustomButton nextButton = new CustomButton("Next");
         buttonPanel.add(nextButton);
         nextButton.addActionListener(new ActionListener() {
             @Override
@@ -296,14 +291,16 @@ public class QuizApplication extends JFrame {
 
 
     private void checkAnswers() {
+        System.out.println("check answers");
         // Check if the selected option is correct
         for (int q = 0; q < questionsNumber; q++) {
-            for (int i = 0; i < 4; i++) {
-                if (options[i].isSelected() && options[i].getText().equals(questions[q][2][0])) {
-                    score++; // Increment score if correct option is selected
-                    break;
-                }
+
+
+            if (selectedAnswers[q] != 5 && questions[q][1][selectedAnswers[q]] == questions[q][2][0]) {
+
+                score++; // Increment score if correct option is selected
             }
+
         }
     }
 
@@ -355,14 +352,16 @@ public class QuizApplication extends JFrame {
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setLayout(new BorderLayout());
         dialog.setTitle("Quiz Finished!");
-        dialog.add(panel,BorderLayout.NORTH);
+        dialog.add(panel, BorderLayout.NORTH);
         dialog.pack();
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
     }
-    private void resetApp(){
-        currentQuestion =0;
+
+    private void resetApp() {
+        currentQuestion = 0;
+        score = 0;
         displayStartPage();
         remove(buttonPanel);
         resetAnswers();
